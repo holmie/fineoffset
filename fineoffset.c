@@ -51,20 +51,16 @@ void send_crc8 () {
 }
 
 int main () {
-//	initUART();
 	DDRC |=1<<PC2;  /* PC2 will now be the output pin */
 
 	while (1) {
-//		writeString("Sending temperature\r\n");
 		uint8_t preamble = 255;
 		uint16_t deviceid = 1116;
 		uint16_t temperature = 251;
 		uint8_t humidity = 69;
 //		uint8_t crc8;
 
-/*		uint32_t payload = (uint32_t) deviceid << 32 | (uint32_t) temperature;
-		payload = payload | humidity;
-*/
+		uint32_t payload = deviceid << 20 | temperature << 8 | humidity;
 
 		send_uint8_bitstring(preamble, 0);
 		send_uint16_bitstring(deviceid, 4);
