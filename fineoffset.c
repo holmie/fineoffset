@@ -2,7 +2,6 @@
  *
  * Program to read a TSL230R light sensor with S3 and S4 high (100x division)
  * connected to INT0.    433MHz TX should be connected to PC2
- * It sends an estimated light value with the fineoffset protocol to a matching receiver.
  *
  */
 
