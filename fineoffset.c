@@ -66,34 +66,13 @@ int main () {
 	uint8_t humidity;
 	uint8_t crc8 = 0x0;
 
-	uint8_t runcount = 0;
-
-	sei();
+	temperature = 251;
+	humidity = 69;
 
 	while (1) {
-
-
 		deviceid = 1116;
-		// will use the temperature field to send the light level
-		humidity = runcount;
 		// never figured out how to calculate this, check disabled in the receiver for now..
 		crc8 = 0b10011000;
-
-		// reset global interrupt counter
-		counter = 0;
-
-		// enable interrupts
-		DDRD = 0;		// all inputs on DDRD
-		PORTD |= (1<<PD2);
-		EIMSK |= _BV(INT0);  // Enable INT0
-		EICRA |= _BV(ISC01); // Trigger on falling edge of INT0
-		_delay_ms(500);
-/*		EIMSK &= _BV(INT0);
-		EICRA &= _BV(ISC01);
-		PORTD &= ~(1<<PD2);
-*/
-		// set the temperature to the current counter value
-		temperature = counter;
 
 /*		uint32_t payload = deviceid << 20 | temperature << 8 | humidity; */
     // deviceid =        0000 0000 0000 0000 0000 1011 0111 0110
@@ -114,9 +93,6 @@ int main () {
 			send_uint8_bitstring(crc8, 0);
 			_delay_ms(0.5);
 		}
-
-		runcount++;
-		if (runcount > 98) { runcount = 0; }
 
 		_delay_ms(10000);
 
