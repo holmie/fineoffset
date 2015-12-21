@@ -1,10 +1,11 @@
 # fineoffset
 
-upload to atmega168, connect 433 MHz TX to output PC2 - receive with rtl_433 (github.com/merbanan/rtl_433)
+upload to atmega168, connect 433 MHz TX to output PC2 - receive with rtl_433 (github.com/merbanan/rtl_433) or compatible WH2 weather station
 
-problem: have to calculate crc8 of payload (which is deviceid, temperature, humidity) (32 bits/4 bytes) - now stored in uint32_t payload.. wise?
+this is just a proof of concept, it can push valid packets from an ATMega168 to a receiver, you need to connect a temperature sensor
 
-(The CRC-8 polynomial used is x8 + x5 + x4 + 1.)
+do readings and modify the variables accordingly.
+
 
 
 bitwise.c was used for testing bit shifting without having to flash the atmega eeprom every time
