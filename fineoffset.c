@@ -1,7 +1,7 @@
 /*
  *
- * Program to read a TSL230R light sensor with S3 and S4 high (100x division)
- * connected to INT0.    433MHz TX should be connected to PC2
+ * ATMega168 as a 433MHz wireless transmitter.  Can send to tellstick and other compatible
+ * receivers with the fineoffset protocol.
  *
  */
 
