@@ -20,6 +20,30 @@ void send_uint8_bitstring(uint8_t intarr, int skip) {
 	printf("\n%s\n", bitstring);
 }
 
+
+/* this is somewhat ripped from merbanan/rtl_433/src/util.c */
+uint8_t crc8(uint32_t payload, unsigned nBytes, uint8_t polynomial, uint8_t init) {
+    uint8_t remainder = init;	
+    unsigned byte, bit;
+
+	uint8_t current_byte;
+
+    for (byte = 0; byte < nBytes; ++byte) {
+		// 32-(8*(0+1))
+		current_byte = payload >> (32-(8*(byte+1)));
+        remainder ^= current_byte;
+        for (bit = 0; bit < 8; ++bit) {
+            if (remainder & 0x80) {
+                remainder = (remainder << 1) ^ polynomial;
+            }
+            else {
+                remainder = (remainder << 1);
+            }
+        }
+    }
+    return remainder;
+}
+
 uint8_t crc8_update(uint8_t b)
 {
     uint8_t do_xor;
@@ -94,18 +118,7 @@ int main () {
 	// actual:			 1011 0111 0110 0000 1111 1011 0100 0101
 	// confirmed working.
 
-//	crc8 = crc8_update(deviceid << 20)
-
-	uint8_t crc1, crc2, crc3, crc4;
-	crc1 = payload >> 24;
-	crc2 = payload >> 16;
-	crc3 = payload >> 8;
-	crc4 = payload;
-
-	crc8_update(payload >> 24);
-	crc8_update(payload >> 16);
-	crc8_update(payload >> 8);
-	crc8_update(payload);
+	crc = crc8(payload, 4, 0x31, 0);
 
 	printf("This should be 10011000\n");
 	printf("It is: \n");
